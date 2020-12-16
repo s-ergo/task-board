@@ -13,32 +13,31 @@ class SiteController
         session_start();
 
         $params = explode(',', $params);
-        $sort = $params[0];
+        $sort = explode('-', $params[0]);
 
-        $whiteList = [
-            "username-asc"  => "username",
-            "username-desc" => "username DESC",
-            "email-asc" => "email",
-            "email-desc" => "email DESC",
-            "status-asc" => "status",
-            "status-desc" => "status DESC"
-        ];
+        $sortableFields = ['username', 'email', 'status'];
+        $sortDirections = ['asc', 'desc'];
 
-        $sortQuery = "id DESC";
+        $sortString = "id DESC";
 
-        if (array_key_exists($sort, $whiteList)) {
-            $sortQuery = $whiteList[$sort];
-        }
+        if (in_array($sort[0], $sortableFields, true) &&
+            in_array($sort[1], $sortDirections, true)) {
+                $sortString = "$sort[0] $sort[1]";
+        };
 
-        $page = $params[1];
-        $start = ($page - 1) * 3;
+        $page = (int) $params[1];
+        $perPage = 3;
+        $start = ($page - 1) * $perPage;
 
         $model = new Task;
-        $tasks = $model->getTasks($sortQuery, $start);
+        $tasks = $model->getSeveralTasks($sortString, $start, $perPage);
         $count = $model->getCount();
 
         (new View)->render('default', [
-            'tasks' => $tasks, 'count' => $count, 'page' => $page
+            'tasks' => $tasks,
+            'count' => $count,
+            'page' => $page,
+            'perPage' => $perPage,
         ]);
 
         $_SESSION['notice'] = "";
@@ -120,6 +119,7 @@ class SiteController
 
         (new Task)->changeStatus($id, $status);
     }
+
 
     public static function sanitizer($data, $filter, $length)
     {
