@@ -17,20 +17,20 @@ class Task
     }
 
 
-    public function getTasks($sort, $start)
+    public static function getSeveralTasks($sortString, $start, $perPage)
     {
         $query = "SELECT * FROM `tasks`
-                  ORDER BY " . $sort . "
-                  LIMIT ?,3
+                  ORDER BY " . $sortString . "
+                  LIMIT ?,?
                   ";
 
         $stmt = self::$pdo->prepare($query);
-        $stmt->execute([$start]);
+        $stmt->execute([$start, $perPage]);
         return $stmt->fetchAll();
     }
 
 
-    public function getCount()
+    public static function getCount()
     {
         $query = "SELECT count(`id`) FROM `tasks`";
         $stmt = self::$pdo->prepare($query);
