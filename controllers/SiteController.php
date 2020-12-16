@@ -20,10 +20,10 @@ class SiteController
         $sort = explode('-', $params[0]);
         $sortableFields = ['username', 'email', 'status'];
         $sortDirections = ['asc', 'desc'];
-        $sortString = "id DESC";
+        $sortString = "id desc";
 
-        if (in_array($sort[0], $sortableFields, true) &&
-            in_array($sort[1], $sortDirections, true)) {
+        if (in_array($sort[0], $sortableFields) &&
+            in_array($sort[1], $sortDirections)) {
                 $sortString = "$sort[0] $sort[1]";
         };
 
