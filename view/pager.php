@@ -1,6 +1,5 @@
 <?php
 
-$perPage = 3;
 $numPages = ceil($count / $perPage);
 
 if ($numPages == 0) {
@@ -15,7 +14,7 @@ if ($page == 1) {
 
 $backLnk .= '"><a class="page-link" href="./';
 
-if ($page != 2) {                    
+if ($page != 2) {
     $backLnk .= 'page';
     $backLnk .= ($page - 1);
 }
@@ -41,7 +40,7 @@ for ($i = 1; $i <= $numPages; $i++) {
     if ($page != $i) {
         $paginator = '<li class="page-item"><a class="page-link" href="./';
 
-        if ($i != 1) {                
+        if ($i != 1) {
             $paginator .= 'page';
             $paginator .= $i;
         }
