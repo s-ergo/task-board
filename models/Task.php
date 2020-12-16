@@ -17,7 +17,7 @@ class Task
     }
 
 
-    public static function getSeveralTasks($sortString, $start, $perPage)
+    public function getSeveralTasks($sortString, $start, $perPage)
     {
         $query = "SELECT * FROM `tasks`
                   ORDER BY " . $sortString . "
@@ -30,7 +30,7 @@ class Task
     }
 
 
-    public static function getCount()
+    public function getCount()
     {
         $query = "SELECT count(`id`) FROM `tasks`";
         $stmt = self::$pdo->prepare($query);
