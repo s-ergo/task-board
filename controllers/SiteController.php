@@ -11,23 +11,21 @@ class SiteController
     public static function actionIndex($params)
     {
         session_start();
-
         $params = explode(',', $params);
-        $sort = explode('-', $params[0]);
 
+        $page = (int) $params[1];
+        $perPage = 3;
+        $start = ($page - 1) * $perPage;
+
+        $sort = explode('-', $params[0]);
         $sortableFields = ['username', 'email', 'status'];
         $sortDirections = ['asc', 'desc'];
-
         $sortString = "id DESC";
 
         if (in_array($sort[0], $sortableFields, true) &&
             in_array($sort[1], $sortDirections, true)) {
                 $sortString = "$sort[0] $sort[1]";
         };
-
-        $page = (int) $params[1];
-        $perPage = 3;
-        $start = ($page - 1) * $perPage;
 
         $model = new Task;
         $tasks = $model->getSeveralTasks($sortString, $start, $perPage);
